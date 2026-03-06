@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Asset Portal | Material 3 Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --m3-primary: #d3e3fd; /* Light Blue Material 3 */
+            --m3-surface: #1a1c1e;
+            --m3-on-surface: #e2e2e6;
+            --m3-secondary-container: #334458;
+            --m3-error: #ffb4ab;
+        }
+        body {
+            background-color: #0f1113;
+            color: var(--m3-on-surface);
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+        }
+        .m3-card {
+            background-color: #1a1c1e;
+            border-radius: 28px; /* Standard M3 Radius */
+            padding: 24px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .m3-input {
+            background-color: #2e3033;
+            border-bottom: 2px solid #8e9199;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            padding: 16px;
+            width: 100%;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .m3-input:focus {
+            border-bottom-color: #d3e3fd;
+            background-color: #35393d;
+        }
+        .m3-btn {
+            background-color: #d3e3fd;
+            color: #003258;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .m3-btn:active {
+            transform: scale(0.95);
+        }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .step-content { display: none; }
+        .step-active { display: block; animation: m3-fade 0.4s cubic-bezier(0.2, 0, 0, 1); }
+        @keyframes m3-fade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Hacker Glow Effects */
+        .cyber-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(211, 227, 253, 0.05) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        /* Loading Spinner M3 Style */
+        .m3-loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid #334458;
+            border-top-color: #d3e3fd;
+            border-radius: 50%;
+            animation: m3-spin 1s linear infinite;
+        }
+        @keyframes m3-spin { to { transform: rotate(360deg); } }
+
+        .scan-line {
+            height: 2px;
+            background: #d3e3fd;
+            box-shadow: 0 0 10px #d3e3fd;
+            position: absolute;
+            width: 100%;
+            animation: scan 3s infinite;
+        }
+        @keyframes scan { 0% { top: 0; } 50% { top: 100%; } 100% { top: 0; } }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-4">
+
+    <div class="cyber-glow top-0 left-0"></div>
+    <div class="cyber-glow bottom-0 right-0"></div>
+
+    <!-- M3 Top App Bar -->
+    <header class="w-full max-w-2xl mt-4 flex justify-between items-center p-4 bg-[#1a1c1e] rounded-[24px] mb-8 border border-white/5">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-[#334458] flex items-center justify-center text-blue-200">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.47 4.34-3.1 8.24-7 9.48V12H5V6.3l7-3.11v8.8z"/></svg>
+            </div>
+            <div>
+                <h1 class="text-sm font-medium text-blue-100 uppercase tracking-widest mono">Secure Node X-9</h1>
+                <p class="text-[10px] text-slate-500 mono">IP: 192.168.0.*** [MASKED]</p>
+            </div>
+        </div>
+        <div class="text-right">
+            <p class="text-[10px] font-bold text-green-400 mono">QUANTUM TUNNEL ACTIVE</p>
+            <p class="text-[9px] text-slate-500">AES-512 ENCRYPTED</p>
+        </div>
+    </header>
+
+    <main class="w-full max-w-lg">
+
+        <!-- STEP 1: CARD & IDENTITY -->
+        <div id="step-1" class="m3-card step-active">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="bg-blue-900/30 p-2 rounded-lg text-blue-300">01</span>
+                <h2 class="text-xl font-medium">Identity Handshake</h2>
+            </div>
+            <div class="space-y-6">
+                <div class="relative">
+                    <input type="text" placeholder="Quantum Card Identifier" class="m3-input mono text-lg">
+                </div>
+                <div class="flex gap-4">
+                    <input type="text" placeholder="Exp: MM/YY" class="m3-input w-1/2 mono">
+                    <input type="password" placeholder="Key Hash (CVV)" class="m3-input w-1/2 mono">
+                </div>
+                <div class="p-3 bg-blue-900/10 rounded-xl border border-blue-500/10">
+                    <p class="text-[10px] text-blue-300 mono uppercase tracking-tighter">
+                        > Initializing Neural-Link Protection...<br>
+                        > Dynamic Routing Enabled: ON
+                    </p>
+                </div>
+                <button onclick="nav(2)" class="m3-btn w-full text-lg shadow-lg shadow-blue-900/20 uppercase tracking-widest">
+                    Authenticate Session
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 2: NETWORK ROUTING -->
+        <div id="step-2" class="m3-card step-content">
+            <h2 class="text-xl font-medium mb-2">Protocol Routing</h2>
+            <p class="text-xs text-slate-400 mb-6">Select a decentralized node for settlement.</p>
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <button onclick="setCurr('USD')" class="p-4 bg-[#2e3033] rounded-2xl hover:bg-[#3d4044] border-2 border-transparent focus:border-blue-400 transition-all text-left">
+                    <span class="block font-bold">USD</span>
+                    <span class="text-[9px] text-blue-300">FIAT NODE</span>
+                </button>
+                <button onclick="setCurr('USDT')" class="p-4 bg-[#2e3033] rounded-2xl hover:bg-[#3d4044] border-2 border-transparent focus:border-blue-400 transition-all text-left">
+                    <span class="block font-bold">USDT</span>
+                    <span class="text-[9px] text-green-300">BLOCKCHAIN</span>
+                </button>
+                <button onclick="setCurr('BTC')" class="p-4 bg-[#2e3033] rounded-2xl hover:bg-[#3d4044] border-2 border-transparent focus:border-blue-400 transition-all text-left">
+                    <span class="block font-bold">BTC</span>
+                    <span class="text-[9px] text-yellow-300">Satoshi Core</span>
+                </button>
+                <button onclick="setCurr('TON')" class="p-4 bg-[#2e3033] rounded-2xl hover:bg-[#3d4044] border-2 border-transparent focus:border-blue-400 transition-all text-left">
+                    <span class="block font-bold">TON</span>
+                    <span class="text-[9px] text-blue-400">Telegram Hub</span>
+                </button>
+            </div>
+            <button onclick="nav(3)" class="m3-btn w-full uppercase font-bold">Initialize Node</button>
+        </div>
+
+        <!-- STEP 3: ASSET INJECTION -->
+        <div id="step-3" class="m3-card step-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-medium">Liquidity Injection</h2>
+                <div class="px-3 py-1 bg-yellow-900/20 text-yellow-400 rounded-full text-[10px] font-bold border border-yellow-500/20">RULE B-72</div>
+            </div>
+            <div class="space-y-6">
+                <div class="bg-[#2e3033] p-4 rounded-2xl">
+                    <label class="block text-[10px] text-blue-300 mb-2 font-bold mono">SETTLEMENT AMOUNT</label>
+                    <div class="flex items-center gap-2">
+                        <input type="number" id="amtIn" placeholder="0.00" class="bg-transparent text-3xl font-bold w-full outline-none">
+                        <span id="labelCurr" class="text-blue-200 text-lg mono font-bold">USD</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="p-3 bg-[#1e2022] rounded-xl border border-white/5">
+                        <span class="block text-[8px] text-slate-500 uppercase">Latency</span>
+                        <span class="text-xs mono text-green-400">14ms</span>
+                    </div>
+                    <div class="p-3 bg-[#1e2022] rounded-xl border border-white/5">
+                        <span class="block text-[8px] text-slate-500 uppercase">Encryption</span>
+                        <span class="text-xs mono text-blue-400">RSA-4096</span>
+                    </div>
+                </div>
+                <button onclick="nav(4)" class="m3-btn w-full text-lg shadow-xl shadow-blue-500/10">PROCEED TO BIO-SCAN</button>
+            </div>
+        </div>
+
+        <!-- STEP 4: BIO-SCAN HOLOGRAPHIC -->
+        <div id="step-4" class="m3-card text-center step-content">
+            <h2 class="text-xl font-medium mb-4">Biometric Signature</h2>
+            <p class="text-xs text-slate-400 mb-10">Place thumb on the neural scanner to sign the smart contract.</p>
+            
+            <div class="relative w-32 h-32 mx-auto mb-10 group cursor-pointer" onclick="nav(5)">
+                <div class="absolute inset-0 border-2 border-blue-500/30 rounded-2xl overflow-hidden">
+                    <div class="scan-line"></div>
+                </div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <svg class="w-20 h-20 text-blue-200 opacity-40 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <p class="text-[9px] text-blue-400 mono animate-pulse uppercase">Awaiting Neural Pulse...</p>
+        </div>
+
+        <!-- STEP 5: CRYPTO HASH KEY -->
+        <div id="step-5" class="m3-card step-content">
+            <h2 class="text-xl font-medium mb-6 text-center">Decryption Key Verification</h2>
+            <div class="bg-[#2e3033] p-6 rounded-[24px] mb-8">
+                <input type="text" maxlength="6" placeholder="******" class="w-full bg-transparent text-center text-4xl tracking-[1.5rem] font-bold outline-none text-blue-200">
+            </div>
+            <button onclick="startFinalProcess()" class="m3-btn w-full py-4 text-lg">FINALIZE HANDSHAKE</button>
+            <p class="text-center text-[10px] text-slate-500 mt-4 mono">Layer 2 Verification Required</p>
+        </div>
+
+        <!-- STEP 6: NODE SYNC (LOADING) -->
+        <div id="step-6" class="m3-card text-center step-content">
+            <div class="flex justify-center mb-8">
+                <div class="m3-loader"></div>
+            </div>
+            <h2 class="text-xl font-medium mb-2 mono">Syncing Nodes...</h2>
+            <div id="m3-logs" class="bg-black/50 p-4 rounded-2xl h-40 overflow-hidden text-[9px] text-left text-blue-200/50 mono space-y-1">
+                <!-- Logs will appear here -->
+            </div>
+            <div class="mt-4 flex justify-between items-center text-[10px] mono text-slate-500">
+                <span>Progress: <span id="progress-val">0%</span></span>
+                <span>Security: HIGH</span>
+            </div>
+        </div>
+
+        <!-- STEP 7: ERROR (FINAL) -->
+        <div id="step-7" class="m3-card text-center step-content border-t-4 border-red-500">
+            <div class="w-16 h-16 bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="text-red-400 w-10 h-10" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            </div>
+            <h2 class="text-2xl font-bold text-red-100 mb-4">Transfer Aborted</h2>
+            <div class="p-4 bg-red-950/20 rounded-2xl border border-red-900/20 mb-6">
+                <p class="text-sm font-medium text-red-200 italic">"Your country is banned P2P in 1 January 2026"</p>
+            </div>
+            <p class="text-[9px] text-slate-500 mono uppercase">
+                System Log: REQ_BANNED_LOC_721<br>
+                Node: ASIA-CENTRAL-NODE-01<br>
+                Status: Handshake Rejected
+            </p>
+        </div>
+
+    </main>
+
+    <!-- M3 Bottom Navigation / Footer -->
+    <footer class="w-full max-w-lg mt-12 flex flex-col items-center gap-6">
+        <div class="bg-white p-3 rounded-[16px] shadow-2xl">
+            <!-- Mock QR -->
+            <svg width="80" height="80" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0H9V9H0V0ZM2 2V7H7V2H2ZM0 11H9V20H0V11ZM2 13V18H7V13H2ZM0 22H9V29H0V22ZM2 24V27H7V24H2ZM11 0H20V9H11V0ZM13 2V7H18V2H13ZM11 11H20V20H11V11ZM13 13V18H18V13H13ZM22 0H29V9H22V0ZM24 2V7H27V2H24ZM22 11H29V20H22V11ZM24 13V18H27V13H24ZM11 22H20V29H11V22ZM13 24V27H18V24H13ZM22 22H29V29H22V22ZM24 24V27H27V24H24Z" fill="#1a1c1e"/>
+            </svg>
+        </div>
+        
+        <div class="flex gap-6 text-[10px] font-medium text-slate-500 uppercase">
+            <a href="#" class="hover:text-blue-300">Privacy</a>
+            <a href="#" class="hover:text-blue-300">Terms</a>
+            <a href="#" class="hover:text-blue-300">Support</a>
+        </div>
+
+        <a href="https://help.wallet.google.com" target="_blank" class="px-6 py-2 bg-[#1a1c1e] text-blue-300 rounded-full text-xs font-bold border border-white/5 shadow-lg">
+            help.wallet.google.com
+        </a>
+    </footer>
+
+    <script>
+        const logs = [
+            "> Requesting Neural Token...",
+            "> Bypassing ISP Firewalls...",
+            "> Routing via Latin-America Nodes...",
+            "> Masking Local IP: OK",
+            "> Synchronizing Smart Contract X-9...",
+            "> Validating Liquidity Tax B-72...",
+            "> Establishing Quantum Tunnel...",
+            "> Requesting Final Handshake...",
+            "> ERROR: REGIONAL_VIOLATION_DETECTION",
+            "> System Lock Engaged..."
+        ];
+
+        function nav(step) {
+            if(step === 4) {
+                if(!document.getElementById('amtIn').value) {
+                    alert("INJECT LIQUIDITY AMOUNT FIRST");
+                    return;
+                }
+            }
+            document.querySelectorAll('main > div').forEach(d => d.classList.remove('step-active'));
+            document.getElementById(`step-${step}`).classList.add('step-active');
+            window.scrollTo(0,0);
+        }
+
+        function setCurr(c) {
+            document.getElementById('labelCurr').innerText = c;
+            event.target.parentElement.querySelectorAll('button').forEach(b => b.style.borderColor = "transparent");
+            event.target.style.borderColor = "#d3e3fd";
+        }
+
+        function startFinalProcess() {
+            nav(6);
+            let logBox = document.getElementById('m3-logs');
+            let progText = document.getElementById('progress-val');
+            let i = 0;
+            
+            let logInterval = setInterval(() => {
+                if(i < logs.length) {
+                    logBox.innerHTML += `<div class="mb-1">${logs[i]}</div>`;
+                    logBox.scrollTop = logBox.scrollHeight;
+                    progText.innerText = Math.floor((i/logs.length)*100) + "%";
+                    i++;
+                } else {
+                    clearInterval(logInterval);
+                }
+            }, 6000);
+
+            // Final delay of 2 minutes
+            setTimeout(() => {
+                nav(7);
+            }, 120000);
+        }
+    </script>
+</body>
+</html>
+
+                                                       
